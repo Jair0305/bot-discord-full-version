@@ -25,17 +25,21 @@ bot = commands.Bot(command_prefix = ".", description = "This is an command that 
 
 @bot.command()
 async def ping(ctx):
+	print("Get: ping\nSend: Pong")
 	await ctx.send("pong")
 
 @bot.command()
 async def diego(ctx):
+	print("Get: diego\nSend: Diego es joto")
 	await ctx.send("Diego es joto")
 
 @bot.command()
 async def joto(ctx, name = None):
 	if name != None:
+		print(f"Get: joto {name}\nSend: {name} es joto")
 		await ctx.send(f"{name} es joto")
 	else:
+		print("Get: joto\nSend: Diego es joto")
 		await ctx.send("Diego es joto")
 
 #----Event----
