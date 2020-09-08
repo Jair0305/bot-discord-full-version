@@ -1,6 +1,8 @@
 import discord
 from discord.ext import commands
 
+from bs4 import BeautifulSoup
+
 #----Bot----
 
 bot = commands.Bot(command_prefix = ".", description = "This is an command that say 'Diego es joto'")
@@ -22,6 +24,62 @@ bot = commands.Bot(command_prefix = ".", description = "This is an command that 
 		    await ctx.send(embed=embed)
 ---------------------------
 """
+
+@bot.command()
+async def i(ctx, *, imgSearch):
+
+	pathURL = parse.urlencode({"q" : imgSearch})
+	pathURL = f"https://www.google.com/search?{pathURL}&tbm=isch&ved=2ahUKEwj5v5yH0dfrAhVRbqwKHZCQA2kQ2-cCegQIABAA&o{pathURL}&gs_lcp=CgNpbWcQAzIFCAAQsQMyAggAMgIIADICCAAyAggAMgIIADICCAAyAggAMgIIADICCAA6BwgAELEDEEM6BAgAEENQoxJYqB9g4iBoAHAAeACAAcwCiAHQBZIBBzAuMS4xLjGYAQCgAQGqAQtnd3Mtd2l6LWltZ8ABAQ&sclient=img&ei=c3ZWX7m6C9HcsQWQoY7IBg&bih=661&biw=1280&hl=es-419"
+	#print(pathURL, end="\n\n")
+	url = Request(pathURL, headers = {"User-Agent": "Mozilla/5.0"})
+	
+	html_res = request.urlopen(url)
+
+	soup = BeautifulSoup(html_res, features="html.parser")
+
+	patt = re.compile('src="(.*)".*/>')
+
+	results = []
+	for a in soup.find_all('img'):
+	    path = re.findall(patt, str(a))[0]
+	    results.append(path)
+
+	#print(results)
+	embed = discord.Embed(title=f"{ctx.guild.name}", description=f"{imgSearch}")
+	embed.set_thumbnail(url=results[1])
+	await ctx.send(embed=embed)
+
+@bot.command()
+async def img(ctx, *, imgSearch):
+
+	try:
+		n = int(imgSearch[-2:])
+		imgSearch = imgSearch[:-2]
+		print(imgSearch)
+		print(n)
+		print("ejecutando parse int")
+	except Exception as e:
+		n = 1
+		print("Ejecutando int = 1")
+
+	pathURL = parse.urlencode({"q" : imgSearch})
+	pathURL = f"https://www.google.com/search?{pathURL}&tbm=isch&ved=2ahUKEwj5v5yH0dfrAhVRbqwKHZCQA2kQ2-cCegQIABAA&o{pathURL}&gs_lcp=CgNpbWcQAzIFCAAQsQMyAggAMgIIADICCAAyAggAMgIIADICCAAyAggAMgIIADICCAA6BwgAELEDEEM6BAgAEENQoxJYqB9g4iBoAHAAeACAAcwCiAHQBZIBBzAuMS4xLjGYAQCgAQGqAQtnd3Mtd2l6LWltZ8ABAQ&sclient=img&ei=c3ZWX7m6C9HcsQWQoY7IBg&bih=661&biw=1280&hl=es-419"
+	#print(pathURL, end="\n\n")
+	url = Request(pathURL, headers = {"User-Agent": "Mozilla/5.0"})
+	
+	html_res = request.urlopen(url)
+
+	soup = BeautifulSoup(html_res, features="html.parser")
+
+	patt = re.compile('src="(.*)".*/>')
+
+	results = []
+	for a in soup.find_all('img'):
+	    path = re.findall(patt, str(a))[0]
+	    results.append(path)
+
+	#print(results)
+	await ctx.send(results[int(n)])
 
 @bot.command()
 async def ping(ctx):
