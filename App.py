@@ -105,4 +105,4 @@ async def on_ready():
 
 #----Bot-run----
 
-bot.run("NzUyMzczNDQyNDg5MzUyMzEz.X1WsXw.PccRJEO-JEHUf432GaaAgTqAGIo")
+bot.run("Your token")
