@@ -55,12 +55,8 @@ async def img(ctx, *, imgSearch):
 	try:
 		n = int(imgSearch[-2:])
 		imgSearch = imgSearch[:-2]
-		print(imgSearch)
-		print(n)
-		print("ejecutando parse int")
 	except Exception as e:
 		n = 1
-		print("Ejecutando int = 1")
 
 	pathURL = parse.urlencode({"q" : imgSearch})
 	pathURL = f"https://www.google.com/search?{pathURL}&tbm=isch&ved=2ahUKEwj5v5yH0dfrAhVRbqwKHZCQA2kQ2-cCegQIABAA&o{pathURL}&gs_lcp=CgNpbWcQAzIFCAAQsQMyAggAMgIIADICCAAyAggAMgIIADICCAAyAggAMgIIADICCAA6BwgAELEDEEM6BAgAEENQoxJYqB9g4iBoAHAAeACAAcwCiAHQBZIBBzAuMS4xLjGYAQCgAQGqAQtnd3Mtd2l6LWltZ8ABAQ&sclient=img&ei=c3ZWX7m6C9HcsQWQoY7IBg&bih=661&biw=1280&hl=es-419"
@@ -83,7 +79,6 @@ async def img(ctx, *, imgSearch):
 
 @bot.command()
 async def ping(ctx):
-	print("Get: ping\nSend: Pong")
 	await ctx.send("pong")
 
 @bot.command()
