@@ -1,6 +1,8 @@
 import discord
 from discord.ext import commands
-
+from urllib import parse, request
+from urllib.request import Request
+import re
 from bs4 import BeautifulSoup
 
 #----Bot----
