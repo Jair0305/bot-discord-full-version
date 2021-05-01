@@ -51,8 +51,44 @@ async def i(ctx, *, imgSearch):
 	embed.set_thumbnail(url=results[1])
 	await ctx.send(embed=embed)
 
+#comando para dar la informacion del bot y del grupo
+@bot.command()
+async def info(ctx):
+	embed = discord.Embed(title="Funciones del bot", description="Este bot es para mostrarte imagens de google e insultar a gente", color=discord.Color.blue())
+	embed.add_field(name="Comandos", value=".info\n.img 'nombre de la imagen' 'numero de la imagen'\n.joto '@nombre'")
+	
+	await ctx.send(embed = embed)
+
+#comando para agregar y testear nuevas funciones 
+@bot.command()
+async def test(ctx, user: discord.User, *,msg: str = None):
+
+	if msg == None:
+		msg = "Chinga toda su puta perra madre"
+
+	embed = discord.Embed(title="Este pana: ", color = discord.Color.gold())
+	embed.add_field(name=f"{msg}", value = f"{user}")
+	embed.set_thumbnail(url=user.avatar_url)
+
+	await ctx.send(embed = embed)
+
+#maldice a la persona etiquetada
+@bot.command()
+async def ctm(ctx, user: discord.User, *,msg: str = None):
+
+	if msg == None:
+		msg = "Chinga toda su reputisima perra madre"
+
+	embed = discord.Embed(title="Este pana: ", color = discord.Color.gold())
+	embed.add_field(name=f"{msg}", value = f"{user}")
+	embed.set_thumbnail(url=user.avatar_url)
+
+	await ctx.send(embed = embed)
+
 @bot.command()
 async def img(ctx, *, imgSearch):
+
+	palabrasBlockeadas = ["porno","hentai","sexy", "sexo"]
 
 	try:
 		n = int(imgSearch[-2:])
@@ -60,7 +96,13 @@ async def img(ctx, *, imgSearch):
 	except Exception as e:
 		n = 1
 
+	for palabra in palabrasBlockeadas:
+		imgSearch = imgSearch.replace(palabra, "icono de bloqueado")
+
+	print(imgSearch)
+
 	pathURL = parse.urlencode({"q" : imgSearch})
+
 	pathURL = f"https://www.google.com/search?{pathURL}&tbm=isch&ved=2ahUKEwj5v5yH0dfrAhVRbqwKHZCQA2kQ2-cCegQIABAA&o{pathURL}&gs_lcp=CgNpbWcQAzIFCAAQsQMyAggAMgIIADICCAAyAggAMgIIADICCAAyAggAMgIIADICCAA6BwgAELEDEEM6BAgAEENQoxJYqB9g4iBoAHAAeACAAcwCiAHQBZIBBzAuMS4xLjGYAQCgAQGqAQtnd3Mtd2l6LWltZ8ABAQ&sclient=img&ei=c3ZWX7m6C9HcsQWQoY7IBg&bih=661&biw=1280&hl=es-419"
 	#print(pathURL, end="\n\n")
 	url = Request(pathURL, headers = {"User-Agent": "Mozilla/5.0"})
@@ -84,11 +126,6 @@ async def ping(ctx):
 	await ctx.send("pong")
 
 @bot.command()
-async def diego(ctx):
-	print("Get: diego\nSend: Diego es joto")
-	await ctx.send("Diego es joto")
-
-@bot.command()
 async def joto(ctx, name = None):
 	if name != None:
 		print(f"Get: joto {name}\nSend: {name} es joto")
@@ -102,6 +139,7 @@ async def joto(ctx, name = None):
 @bot.event
 async def on_ready():
 	print("Bot is ready")
+	
 
 #----Bot-run----
 
