@@ -54,8 +54,8 @@ async def i(ctx, *, imgSearch):
 #comando para dar la informacion del bot y del grupo
 @bot.command()
 async def info(ctx):
-	embed = discord.Embed(title="Funciones del bot", description="Este bot es para mostrarte imagens de google e insultar a gente", color=discord.Color.blue())
-	embed.add_field(name="Comandos", value=".info\n.img 'nombre de la imagen' 'numero de la imagen'\n.joto '@nombre'")
+	embed = discord.Embed(title="Funciones del bot", description="Este bot es para mostrarte imagenes de google e insultar a gente", color=discord.Color.blue())
+	embed.add_field(name="Comandos", value=".info\n.img 'nombre de la imagen' 'numero de la imagen'\n.joto '@nombre'\n.ctm '@nombre' 'texto'")
 	
 	await ctx.send(embed = embed)
 
