@@ -1,0 +1,1 @@
+newcommands = ".info\n.img 'nombre de la imagen' 'numero de la imagen'\n.ppt piedra papel o tijeras\n.joto '@nombre'\n.ctm '@nombre' 'texto'\n.ap 'palabra', bloquea una palabra en la busqueda de imagenes\n.ep 'palabra', elimina una palabra bloqueda\n.ppt puedes jugar piedra,papel y tijeras"

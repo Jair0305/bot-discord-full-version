@@ -1,13 +1,23 @@
 import discord
+import exp_commands
 from discord.ext import commands
 from urllib import parse, request
 from urllib.request import Request
 import re
+import asyncio
 from bs4 import BeautifulSoup
+import random
+
+#----variables----
+
+palabrasBlockeadas = ["porno","hentai","sexy", "sexo", "desnudo", "desnuda", "porn"]
 
 #----Bot----
 
-bot = commands.Bot(command_prefix = ".", description = "This is an command that say 'Diego es joto'")
+intents = discord.Intents(messages = True)
+
+bot = commands.Bot(command_prefix = ".", description = "This is an command that say 'Diego es joto'", intents = intents)
+client = discord.Client(intents = intents)
 
 #----commands----
 
@@ -55,22 +65,20 @@ async def i(ctx, *, imgSearch):
 @bot.command()
 async def info(ctx):
 	embed = discord.Embed(title="Funciones del bot", description="Este bot es para mostrarte imagenes de google e insultar a gente", color=discord.Color.blue())
-	embed.add_field(name="Comandos", value=".info\n.img 'nombre de la imagen' 'numero de la imagen'\n.joto '@nombre'\n.ctm '@nombre' 'texto'")
+	embed.add_field(name="Comandos", value=exp_commands.newcommands)
 	
 	await ctx.send(embed = embed)
 
 #comando para agregar y testear nuevas funciones 
 @bot.command()
-async def test(ctx, user: discord.User, *,msg: str = None):
+async def test(ctx, user: discord.User):
+	print(user.id)
+	await user.send("A")
 
-	if msg == None:
-		msg = "Chinga toda su puta perra madre"
-
-	embed = discord.Embed(title="Este pana: ", color = discord.Color.gold())
-	embed.add_field(name=f"{msg}", value = f"{user}")
-	embed.set_thumbnail(url=user.avatar_url)
-
-	await ctx.send(embed = embed)
+@bot.command()
+async def ppt(ctx):
+	res = random.choice(["piedra","papel","tijeras"])
+	await ctx.send(res)
 
 #maldice a la persona etiquetada
 @bot.command()
@@ -86,9 +94,37 @@ async def ctm(ctx, user: discord.User, *,msg: str = None):
 	await ctx.send(embed = embed)
 
 @bot.command()
-async def img(ctx, *, imgSearch):
+async def ap (ctx, word: str=None):
 
-	palabrasBlockeadas = ["porno","hentai","sexy", "sexo"]
+	isAdd = False
+
+	if word != None:
+		for palabra in palabrasBlockeadas:
+			if word == palabra:
+				await ctx.send("La palabra ya fue censurada!!!")
+				isAdd = True
+				break
+
+		if not isAdd:
+			palabrasBlockeadas.append(word)
+			embed = discord.Embed(title="Nueva palabra censurada:", color = discord.Color.red())
+			embed.add_field(name = f"{word}", value = "Ahora esta palabra será censurada en la busqueda de imagenes")
+			await ctx.send(embed=embed)
+
+	else:
+		await ctx.send("Agregue una palabra plis 🥺")
+
+@bot.command()
+async def ep (ctx, word: str=None):
+	if word != None:
+		try:	
+			palabrasBlockeadas.remove(word)
+			await ctx.send(f"La palabra {word} a sido removida")
+		except Exception as e:
+			print("palabra no encontrada")
+
+@bot.command()
+async def img(ctx, *, imgSearch):
 
 	try:
 		n = int(imgSearch[-2:])
@@ -143,4 +179,5 @@ async def on_ready():
 
 #----Bot-run----
 
-bot.run("NzUyMzczNDQyNDg5MzUyMzEz.X1WsXw.VS3g7Etv3bVcXXxNqOUsotYmAuA")
+if __name__ == "__main__":
+	bot.run("NzUyMzczNDQyNDg5MzUyMzEz.X1WsXw.VS3g7Etv3bVcXXxNqOUsotYmAuA")
