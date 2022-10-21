@@ -1,1 +1,5 @@
 venv
+__pycache__
+exp_commands.py
+Procfile
+runtime.txt
